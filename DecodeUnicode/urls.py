@@ -2,7 +2,7 @@
 
 from django.conf.urls.defaults import patterns, url
 
-from pylucid_project.pylucid_plugins.DecodeUnicode.views import index, display_block
+from DecodeUnicode.views import index, display_block
 
 
 urlpatterns = patterns('',

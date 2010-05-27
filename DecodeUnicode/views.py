@@ -4,17 +4,10 @@
     PyLucid DecodeUnicode plugin
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
 
-    Last commit info:
-    ~~~~~~~~~
-    $LastChangedDate:$
-    $Rev:$
-    $Author: JensDiemer $
-
     :copyleft: 2007-2010 by the PyLucid team, see AUTHORS for more details.
     :license: GNU GPL v3 or above, see LICENSE for more details
 """
 
-__version__ = "$Rev:$"
 
 import unicodedata
 
@@ -23,8 +16,9 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from pylucid_project.apps.pylucid.decorators import render_to
-from pylucid_project.pylucid_plugins.DecodeUnicode.forms import SlugValidationForm, SelectBlock
-from pylucid_project.pylucid_plugins.DecodeUnicode.unicode_data import unicode_block_data
+from DecodeUnicode.forms import SlugValidationForm, SelectBlock
+from DecodeUnicode.unicode_data import unicode_block_data
+
 
 def lucidTag(request):
     msg = "[obsolete lucidTag DecodeUnicode]"
