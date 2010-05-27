@@ -5,6 +5,8 @@ DecodeUnicode
 
 a PyLucid CMS Plugin
 
+Demo page: http://www.pylucid.org/permalink/312/decodeunicode-plugin
+
 h2. setup
 
 Quick how to install the plugin into pylucid:
