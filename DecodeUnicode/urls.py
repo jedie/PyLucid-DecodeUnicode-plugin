@@ -6,6 +6,6 @@ from DecodeUnicode.views import index, display_block
 
 
 urlpatterns = patterns('',
-    url(r'^/(?P<block_slug>.*)/$', display_block, name='DecodeUnicode-display_block'),
+    url(r'^(?P<block_slug>.*)/$', display_block, name='DecodeUnicode-display_block'),
     url(r'^', index, name='DecodeUnicode-index'),
 )
