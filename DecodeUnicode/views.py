@@ -12,6 +12,7 @@
 import unicodedata
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
@@ -23,12 +24,13 @@ from DecodeUnicode.unicode_data import unicode_block_data
 def lucidTag(request):
     msg = "[obsolete lucidTag DecodeUnicode]"
     if request.user.is_staff or settings.DEBUG:
-        request.page_msg.error(
+        messages.error(request, 
             "DecodeUnicode is a PluginPage,"
             " please remove lucidTag 'DecodeUnicode' tag / delete the page"
             " and create a new PluginPage!"
         )
     return msg
+
 
 def index(request):
     block_slug = None
@@ -41,7 +43,7 @@ def index(request):
             msg = "Block unknown!"
             if request.user.is_staff or settings.DEBUG:
                 msg += " (slug is invalid: %r)" % request.GET["block"]
-            request.page_msg.error(msg)
+            messages.error(request, msg)
 
     if block_slug is None:
         first_block = unicode_block_data.get_first_block()
@@ -59,7 +61,7 @@ def display_block(request, block_slug):
         msg = "Block unknown!"
         if request.user.is_staff or settings.DEBUG:
             msg += " (block slug: %r)" % block_slug
-        request.page_msg.error(msg)
+        messages.error(request, msg)
         return index(request)
 
     char_list = unicode_block.get_char_list()
