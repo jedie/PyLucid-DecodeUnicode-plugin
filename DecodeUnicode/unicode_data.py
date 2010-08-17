@@ -190,7 +190,7 @@ class UnicodeBlock(object):
             unicode_value = "\\u%s" % unicode_number
             hex_value = "\\x%s" % char_code
             HTML = "&#x%s;" % char_code
-            name = unicodedata.name(char, "(no unicode name)")
+            name = unicodedata.name(char, None)
 
             data.append({
                 "id": no,
