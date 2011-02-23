@@ -3,16 +3,8 @@
 """
     PyLucid DecodeUnicode plugin
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-       
 
-    Last commit info:
-    ~~~~~~~~~
-    $LastChangedDate:$
-    $Rev:$
-    $Author: JensDiemer $
-
-    :copyleft: 2007-2010 by the PyLucid team, see AUTHORS for more details.
+    :copyleft: 2007-2011 by the PyLucid team, see AUTHORS for more details.
     :license: GNU GPL v3 or above, see LICENSE for more details
 """
 
@@ -161,6 +153,10 @@ BLOCKS = (
     (0x1D200, 0x1D24F, "Ancient Greek Musical Notation"),
     (0x1D300, 0x1D35F, "Tai Xuan Jing Symbols"),
     (0x1D400, 0x1D7FF, "Mathematical Alphanumeric Symbols"),
+
+    #http://www.unicode.org/charts/PDF/Unicode-6.0/U60-1F600.pdf
+    (0x1F600, 0x1F64F, "Emoticons (unicode v6.0)"),
+
     (0x20000, 0x2A6DF, "CJK Unified Ideographs Extension B"),
     (0x2F800, 0x2FA1F, "CJK Compatibility Ideographs Supplement"),
     (0xE0000, 0xE007F, "Tags"),
