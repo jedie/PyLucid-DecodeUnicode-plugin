@@ -20,6 +20,9 @@ If you don't have git, but subversion, you can checkout with this command:
 
 pre. ~/pylucid_plugins$ svn checkout http://svn.github.com/jedie/PyLucid-DecodeUnicode-plugin.git
 
+Restart PyLucid CMS, after symlink DecodeUnicode into external_plugins and
+create a new PluginPage with DecodeUnicode ;)
+
 how to update it:
 
 pre. ~$ cd pylucid_plugins/PyLucid-DecodeUnicode-plugin
