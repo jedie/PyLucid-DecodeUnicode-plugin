@@ -17,14 +17,15 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from pylucid_project.apps.pylucid.decorators import render_to
-from DecodeUnicode.forms import SlugValidationForm, SelectBlock
+from DecodeUnicode.forms import SlugValidationForm, SelectBlock, SearchForm
 from DecodeUnicode.unicode_data import unicode_block_data
+from django.core.exceptions import SuspiciousOperation
 
 
 def lucidTag(request):
     msg = "[obsolete lucidTag DecodeUnicode]"
     if request.user.is_staff or settings.DEBUG:
-        messages.error(request, 
+        messages.error(request,
             "DecodeUnicode is a PluginPage,"
             " please remove lucidTag 'DecodeUnicode' tag / delete the page"
             " and create a new PluginPage!"
@@ -52,6 +53,23 @@ def index(request):
     url = reverse("DecodeUnicode-display_block", kwargs={"block_slug":block_slug})
     return HttpResponseRedirect(url)
 
+def search(request):
+    if not request.POST:
+        raise SuspiciousOperation
+
+    form = SearchForm(request.POST)
+    if not form.is_valid():
+        raise SuspiciousOperation("Form not valid.")
+
+    char = form.cleaned_data['char']
+    block = unicode_block_data.get_block_by_char(char)
+    block_slug = block.slug
+
+    url = reverse("DecodeUnicode-display_block", kwargs={"block_slug":block_slug})
+    url += "#char_%s" % ord(char)
+    messages.info(request, "Found character '%s' in unicode block: '%s'" % (char, block.name))
+    return HttpResponseRedirect(url)
+
 
 @render_to("DecodeUnicode/display.html")
 def display_block(request, block_slug):
@@ -65,10 +83,12 @@ def display_block(request, block_slug):
         return index(request)
 
     char_list = unicode_block.get_char_list()
-    form = SelectBlock(initial={"block":block_slug})
+    select_block_form = SelectBlock(initial={"block":block_slug})
+    search_form = SearchForm()
 
     context = {
-        "form": form,
+        "select_block_form": select_block_form,
+        "search_form":search_form,
 
         "prior_block": unicode_block_data.get_prior_block(unicode_block),
         "next_block": unicode_block_data.get_next_block(unicode_block),

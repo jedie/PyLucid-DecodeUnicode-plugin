@@ -3,8 +3,22 @@
 {% block content %}
 
 {% extrahead %}
+<style>
+tr.highlight td {
+    background-color: #fff;
+    border-top:2px solid #00f;
+    border-bottom:2px solid #00f;
+}
+</style>
 <script type="text/javascript">
 jQuery(document).ready(function($) {
+	
+	if( location.hash ) {
+		hash = location.hash
+		log("Highlight hash:"+hash);
+		$(hash).addClass("highlight");		
+	}
+	
 	$("#id_block").change(function() {
         log("block select field changed:" + this.value);
 	    slug = this.value;
@@ -22,12 +36,19 @@ jQuery(document).ready(function($) {
 </script>
 {% endextrahead %}
 
-<fieldset><legend>Select a unicode block:</legend>
+<fieldset><legend>DecodeUnicode</legend>
     <label for="block">select a unicode block:</label>
     <form name="block_select" method="get" action="{% url DecodeUnicode-index %}">
-    	{{ form }}
+    	{% csrf_token %}
+    	{{ select_block_form }}
         <input value="{% trans "display" %}" type="submit">
     </form>
+    <form name="block_select" method="post" action="{% url DecodeUnicode-search %}">
+    	{% csrf_token %}
+    	{{ search_form }}
+        <input value="{% trans "search" %}" type="submit">
+    </form>
+    
 </fieldset>
 
 <fieldset><legend>{{ range_hex1 }}-{{ range_hex2 }} - {{ block_name }}:</legend>
@@ -45,7 +66,7 @@ jQuery(document).ready(function($) {
         <th>unicode name</th>
     </tr>
     {% for row in char_list %}
-    <tr class="{% cycle 'odd' 'even' %}">
+    <tr class="{% cycle 'odd' 'even' %}" id="char_{{ row.id }}" name="char_{{ row.id }}">
     	<td>
     		<a name="{{ row.id }}"></a>
             <a href="#{{ row.id }}" title="anchor to '{{ row.html|safe }}' ({{ row.name }})">#</a>
@@ -79,6 +100,9 @@ jQuery(document).ready(function($) {
     <tr><td><strong>unicode number</strong></td><td><code>print u'\u0078'</code></td></tr>
     <tr><td><strong>hex</strong></td><td><code>print '\x78'</code></td></tr>
 </table>
-<p id="unidata_version" style="text-align:right;"><small>(Used Unicode database v{{ unidata_version }})</small></p>
+<p id="unidata_version" style="text-align:right;">
+	<small>(Used Unicode database v{{ unidata_version }})</small><br />
+	<a href="https://github.com/jedie/PyLucid-DecodeUnicode-plugin">DecodeUnicode GitHub Project page</a>
+</p>
 </fieldset>
 {% endblock content %}

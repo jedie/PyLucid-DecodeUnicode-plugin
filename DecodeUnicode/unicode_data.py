@@ -233,6 +233,14 @@ class _UnicodeBlockData(object):
     def get_choices(self):
         """
         The data for the html select form.
+        
+        >>> blocks = unicode_block_data.get_choices()
+        >>> len(blocks) == len(BLOCKS)
+        True
+        >>> len(blocks)
+        146
+        >>> blocks[:2]
+        [[u'basic-latin', '0x0000-0x007F - Basic Latin'], [u'latin-1-supplement', '0x0080-0x00FF - Latin-1 Supplement']]
         """
         block_choices = []
         for unicode_block in self.block_list:
@@ -244,5 +252,29 @@ class _UnicodeBlockData(object):
             ])
         return block_choices
 
+    def get_block_by_char(self, char):
+        """
+        >>> block = unicode_block_data.get_block_by_char("+")
+        >>> block.slug
+        u'basic-latin'
+        
+        >>> block = unicode_block_data.get_block_by_char(u"\u257E")
+        >>> block.slug
+        u'box-drawing'
+        """
+        unicode_code_point = ord(char)
+        for block in self.block_list:
+            if block.start <= unicode_code_point and block.end >= unicode_code_point:
+                return block
 
 unicode_block_data = _UnicodeBlockData()
+
+
+
+
+if __name__ == "__main__":
+    print "start DocTest..."
+    import doctest
+    print doctest.testmod(
+        #verbose=True
+    )
